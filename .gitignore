@@ -1,5 +1,0 @@
-venv/
-database.json
-__pycache__/
-.idea/
-.gitignore
