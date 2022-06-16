@@ -1,4 +1,5 @@
 from termcolor import colored, cprint
+from threading import Thread
 from snmp_requests import *
 from database import DataBase
 import os
@@ -24,7 +25,12 @@ class Devices:
                 response = snmp_get(devices[device]['community'], devices[device]['ip_address'], '1.3.6.1.2.1.1.1.0')
                 devices_status[device] = response
 
+            counter = 0
+
             for device in devices:
+                print("_______________________________________________________________")
+                print(str(counter) + ".-")
+                counter += 1
                 print_colored('Dispositivo', devices[device]['host_name'], 'green', ['bold'])
                 print_colored('Dirección IP', devices[device]['ip_address'], 'green', ['bold'])
                 if devices_status[device] is not None:
@@ -35,7 +41,6 @@ class Devices:
                 else:
                     print_colored('Estado', 'DOWN', 'red', ['bold'])
                     print_colored('No. interfaces', 'Desconocido', 'red', ['bold'])
-                print("***********************************************************")
 
     def add_devices(self):
         print()
@@ -45,23 +50,28 @@ class Devices:
         community = input('Ingresa la comunidad configurada en el dispositivo: ')
         port = input('Ingresa el puerto configurado en el dispositivo (161 default): ')
 
-        os.system('mkdir ' + ip_address)
+        os.system('mkdir devices_files/' + ip_address)
 
         self.devices_database.insert(host_name, ip_address, snmp_version, community, port)
 
         print(colored('\nDispositivo agregado exitosamente.', 'green'))
 
     def delete_devices(self):
-        ip_address = input('Ingresa la dirección ip del dispositivo que deseas eliminar: ')
+        ip_address = input('Ingresa la dirección ip del dispositivo que desea eliminar: ')
         self.devices_database.delete(ip_address)
-        os.system('rm -r ' + ip_address)
+        os.system('rm -r devices_files/' + ip_address)
         print(colored('\nDispositivo eliminado exitosamente.', 'green'))
+
+    def generate_report(self):
+        ip_address = input('Ingresa la dirección ip del dispositivo que desea obtener su reporte: ')
+        pass
 
 # number of interfaces: 1.3.6.1.2.1.2.1.0
 # interfaces name:      1.3.6.1.2.1.2.2.1.2.#
 # multicast packages:   1.3.6.1.2.1.2.2.1.12.#
-#
+# ipv4 datagrams:       1.3.6.1.2.1.4.10.0
 # mensajes icmp:        1.3.6.1.2.1.5.1.0
-#
+# retransmitted:        1.3.6.1.2.1.6.12.0
+# retransmitted:        1.3.6.1.2.1.6.12.0
 # output datagrams:     1.3.6.1.2.1.4.10.0
 

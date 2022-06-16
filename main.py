@@ -18,7 +18,7 @@ def main():
         os.system('clear')
         selection = 0
 
-        while selection < 1 or selection > 5:
+        while selection < 1 or selection > 4:
             print("Adquisición de información usando SNMP \n"
                   "\t1.- Listar dispositivos.\n"
                   "\t2.- Agregar dispositivo.\n"
@@ -35,7 +35,8 @@ def main():
             devices.list_devices()
             devices.delete_devices()
         elif selection == 4:
-            break
+            devices.list_devices()
+            devices.generate_report()
         elif selection == 5:
             break
 
