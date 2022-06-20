@@ -1,5 +1,5 @@
-# SNMP-P1
-Adquisición de información usando SNMP
+# SNMP-P2
+Servidor de contabilidad usando SNMP
 
 ```
 pip install pysnmp
