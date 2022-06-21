@@ -40,10 +40,14 @@ class Devices:
                     num_interfaces = snmp_get(devices[device]['community'], devices[device]['ip_address'],
                                               '1.3.6.1.2.1.2.1.0')
                     print_colored('No. interfaces', num_interfaces, 'green', ['bold'])
-                    interfaces_name = snmp_walk(devices[device]['community'], devices[device]['ip_address'],
-                                                '1.3.6.1.2.1.2.2.1.2')
-                    for name in interfaces_name:
-                        print_colored('\tInterface', name, 'green', ['bold'])
+                    active_connections = snmp_walk(devices[device]['community'], devices[device]['ip_address'],
+                                                '1.3.6.1.2.1.6.13.1.4')
+                    active_connections_ports = snmp_walk(devices[device]['community'], devices[device]['ip_address'],
+                                                  '1.3.6.1.2.1.6.13.1.3')
+                    for i in range(len(active_connections)):
+                        if active_connections[i] != "127.0.0.1" and active_connections[i] != "0.0.0.0":
+                            if active_connections_ports[i] == "22":
+                                print_colored('\tSSH cliente: ', active_connections[i], 'green', ['bold'])
                 else:
                     print_colored('Estado', 'DOWN', 'red', ['bold'])
                     print_colored('No. interfaces', 'Desconocido', 'red', ['bold'])

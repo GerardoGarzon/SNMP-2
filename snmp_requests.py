@@ -47,5 +47,3 @@ def snmp_walk(community, host, oid):
                 result.append(varB.split(' = ')[1])
     return result
 
-print(snmp_walk('GerardoComunidad', '192.168.0.172', '1.3.6.1.2.1.1.1')[0].split(' ')[0])
-

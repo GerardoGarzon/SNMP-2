@@ -40,7 +40,7 @@ def main():
                   "\t1.- Listar dispositivos.\n"
                   "\t2.- Agregar dispositivo.\n"
                   "\t3.- Eliminar dispositivo.\n"
-                  "\t4.- Generar reporte de dispositivo.\n"
+                  "\t4.- Generar reporte de contabilidad.\n"
                   "\t5.- Salir.\n")
             selection = int(input("Ingrese la opción seleccionada: "))
 
