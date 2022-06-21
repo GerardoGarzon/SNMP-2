@@ -76,12 +76,14 @@ class Devices:
         print(colored('\nDispositivo eliminado exitosamente.', 'green'))
 
     def generate_report(self):
-        ip_address = input('Ingresa la dirección ip del dispositivo que desea obtener su reporte: ')
+        ip_address = input('Ingresa la dirección ip del servidor SSH: ')
+        ssh_ip_address = input('Ingresa la dirección ip del cliente SSH que desea obtener su reporte: ')
         minutos = input('Ingrese el rango de minutos sobre el cual desea generar el reporte: ')
         generate_report(self.devices_database.read(ip_address)["ip_address"],
                         self.devices_database.read(ip_address)["community"],
                         minutos,
-                        self.devices_database.read(ip_address)["host_name"])
+                        self.devices_database.read(ip_address)["host_name"],
+                        ssh_ip_address)
 
 # number of interfaces: 1.3.6.1.2.1.2.1.0
 # interfaces name:      1.3.6.1.2.1.2.2.1.2.#

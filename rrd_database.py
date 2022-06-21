@@ -42,15 +42,14 @@ def graph_detection(ip_address, type_data, values, minuts, title, label):
               "--vertical-label=" + type_data,
               '--lower-limit', '0',
               "--title=" + title,)
+    params += ("DEF:value=" + str(database_dir) + ":" + str(type_data) + ":AVERAGE",)
+    params += ("CDEF:valueprint=value,8,*",)
+    params += ("LINE:valueprint#FF0000:" + label[0],)
+    params += ("VDEF:cargaLAST=value,LAST",)
+    params += ("PRINT:cargaLAST:%6.2lf",)
+    params += ("GPRINT:cargaLAST:%6.2lf %SLAST",)
 
-    if values > 0:
-        for i in range(values):
-            params += ("DEF:value" + str(i) + "=" + str(database_dir) + ":" + str(type_data) + str(i) + ":AVERAGE",)
-            params += ("CDEF:valueprint" + str(i) + "=value" + str(i) + ",8,*",)
-            params += ("LINE" + str(i) + ":valueprint" + str(i) + "#" + ''.join([random.choice('ABCDEF0123456789') for j in range(6)]) + ":" + label[i],)
-    else:
-        params += ("DEF:value=" + str(database_dir) + ":" + str(type_data) + ":AVERAGE",)
-        params += ("CDEF:valueprint=value,8,*",)
-        params += ("LINE:valueprint#FF0000:" + label[0],)
 
-    ret = rrdtool.graph(*params)
+    ret = rrdtool.graphv(*params)
+
+    return ret
